@@ -1,0 +1,14 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "peercheck version pinned in the check workflow",
+      "managerFilePatterns": ["/^\\.github/workflows/check\\.yml$/"],
+      "matchStrings": ["PEERCHECK_VERSION: (?<currentValue>v[0-9.]+)"],
+      "depNameTemplate": "oscrx/dn42-operator",
+      "datasourceTemplate": "github-tags"
+    }
+  ]
+}
