@@ -1,0 +1,15 @@
+# Migrated from talos4 (dn42-wg-routedbits.yaml, BIRD protocol routedbits_fra1).
+# Endpoint host: router.fra1.routedbits.com
+# Our public key on this tunnel: gJYiy0oDcw8RhuRZKwbR/ypQxG9teDIJYzCxFiJucx4=
+apiVersion: dn42.oscarr.nl/v1alpha1
+kind: DN42Peer
+metadata:
+  name: routedbits
+spec:
+  asn: 4242420207
+  listenPort: 20207
+  endpoint: "[2600:3c17::2000:83ff:fe31:43bc]:53818"
+  publicKey: FIk95vqIJxf2ZH750lsV1EybfeC9+V8Bnhn8YWPy/l8=
+  neighbor: fe80::207
+  link: {latency: 3, bandwidth: 25, crypto: 34}
+  keyRef: routedbits

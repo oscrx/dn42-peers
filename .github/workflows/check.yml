@@ -1,0 +1,83 @@
+# CI gate for peer files. Runs on pull_request_target so the workflow comes
+# from main, never from the PR: a PR can't change the check that judges it.
+# The PR is checked out only as data (YAML is parsed, nothing from it runs).
+name: check
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions: {}
+
+concurrency:
+  group: check-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  # dn42-operator release providing cmd/peercheck. Pinned; bump with Renovate.
+  # NOTE: resolves only once github.com/oscrx/dn42-operator is public and tagged.
+  PEERCHECK_VERSION: v0.1.0
+  # Login of the autopeer GitHub App's bot user.
+  APP_LOGIN: dn42-autopeer[bot]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      auto-mergeable: ${{ steps.check.outputs.auto-mergeable }}
+    steps:
+      - uses: actions/setup-go@v5 # TODO: pin to a commit SHA
+        with:
+          go-version: stable
+          cache: false
+
+      - name: Install peercheck
+        run: go install "github.com/oscrx/dn42-operator/cmd/peercheck@${PEERCHECK_VERSION}"
+
+      - name: Fetch the DN42 registry (aut-num objects only)
+        run: |
+          git clone --quiet --depth 1 --filter=blob:none --sparse https://git.dn42.dev/dn42/registry.git registry
+          git -C registry sparse-checkout set data/aut-num
+
+      - name: Check out the change as data
+        uses: actions/checkout@v4 # TODO: pin to a commit SHA
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          path: pr
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Check
+        id: check
+        env:
+          EVENT: ${{ github.event_name }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+        run: |
+          if [ "$EVENT" = pull_request_target ]; then
+            git -C pr fetch --quiet --no-tags "https://github.com/${GITHUB_REPOSITORY}.git" "+refs/heads/main:refs/remotes/base/main"
+            peercheck --repo pr --base base/main --author "$AUTHOR" --app-login "$APP_LOGIN" --registry-dir registry
+          else
+            peercheck --repo pr --registry-dir registry
+          fi
+
+  # Only PRs from the App that change exactly one peer file, with the check
+  # green, get auto-merge enabled; everything else waits for a human.
+  auto-merge:
+    needs: check
+    if: github.event_name == 'pull_request_target' && needs.check.outputs.auto-mergeable == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Enable auto-merge
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: gh pr merge "$PR" --repo "$GITHUB_REPOSITORY" --auto --squash --match-head-commit "$HEAD_SHA"

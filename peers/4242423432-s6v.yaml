@@ -1,0 +1,15 @@
+# Migrated from talos4 (dn42-wg-s6v.yaml, BIRD protocol s6v_ams1).
+# Endpoint host: ams1.dn42.s6v.net
+# Our public key on this tunnel: FOUmTA011X0niEP9LOkspmpV8heA+M+E3qZBW64C7Qw=
+apiVersion: dn42.oscarr.nl/v1alpha1
+kind: DN42Peer
+metadata:
+  name: s6v
+spec:
+  asn: 4242423432
+  listenPort: 24242
+  endpoint: "[2a0c:b847:ffff:167::a]:42069"
+  publicKey: xAEAuM4uK5+j5kwRGIW6KYEsJVy0/6Awc4x8mpmKuSw=
+  neighbor: fe80::3432
+  link: {latency: 2, bandwidth: 25, crypto: 34}
+  keyRef: s6v

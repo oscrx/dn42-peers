@@ -1,0 +1,15 @@
+# Migrated from talos4 (dn42-wg-yuyuko.yaml, BIRD protocol yuyuko_nlams).
+# Endpoint host: nl01.dn42.yuyuko.com
+# Our public key on this tunnel: CtJ4UixZQ2k1gVWLqpdDx37VEqASCBYSsw/87aGtcyo=
+apiVersion: dn42.oscarr.nl/v1alpha1
+kind: DN42Peer
+metadata:
+  name: yuyuko
+spec:
+  asn: 4242421117
+  listenPort: 21117
+  endpoint: "[2001:bc8:1640:5af4:dc00:ff:fe60:6c4b]:23818"
+  publicKey: 9oVGKPUnxykn9y/CeNmHbImnX2WRsHk6VzSIAQfy0hc=
+  neighbor: fe80::1117
+  link: {latency: 2, bandwidth: 25, crypto: 34}
+  keyRef: yuyuko

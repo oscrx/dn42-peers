@@ -1,0 +1,15 @@
+# Migrated from talos4 (dn42-wg-gload.yaml, BIRD protocol gload_uk1).
+# Endpoint host: uk1.g-load.eu
+# Our public key on this tunnel: BwkrK3duUCaBUtiW7NDatqgTRG2jTs6GzQqD9Mu8Glo=
+apiVersion: dn42.oscarr.nl/v1alpha1
+kind: DN42Peer
+metadata:
+  name: gload
+spec:
+  asn: 4242423914
+  listenPort: 23914
+  endpoint: "[2a0e:dc0:5:4b5e::1]:20054"
+  publicKey: sLbzTRr2gfLFb24NPzDOpy8j09Y6zI+a7NkeVMdVSR8=
+  neighbor: fe80::ade0
+  link: {latency: 3, bandwidth: 25, crypto: 34}
+  keyRef: gload

@@ -1,0 +1,4 @@
+# Everything needs Oscar's review ...
+*        @oscrx
+# ... except peer files, which the CI gate judges (no owner = no code owner review).
+/peers/
