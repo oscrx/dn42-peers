@@ -31,7 +31,7 @@ jobs:
     outputs:
       auto-mergeable: ${{ steps.check.outputs.auto-mergeable }}
     steps:
-      - uses: actions/setup-go@v5 # TODO: pin to a commit SHA
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version: stable
           cache: false
@@ -39,13 +39,35 @@ jobs:
       - name: Install peercheck
         run: go install "github.com/oscrx/dn42-operator/cmd/peercheck@${PEERCHECK_VERSION}"
 
+      # git.dn42.dev needs an account: DN42_REGISTRY_TOKEN is a read-only
+      # access token of Oscar's registry account. Without it, the gate falls
+      # back to registry/asns.txt in main (refreshed by hand) -- never to
+      # skipping the check.
       - name: Fetch the DN42 registry (aut-num objects only)
+        env:
+          DN42_REGISTRY_TOKEN: ${{ secrets.DN42_REGISTRY_TOKEN }}
         run: |
-          git clone --quiet --depth 1 --filter=blob:none --sparse https://git.dn42.dev/dn42/registry.git registry
-          git -C registry sparse-checkout set data/aut-num
+          if [ -n "$DN42_REGISTRY_TOKEN" ]; then
+            git -c "http.extraHeader=Authorization: token ${DN42_REGISTRY_TOKEN}" clone --quiet --depth 1 \
+              --filter=blob:none --sparse https://git.dn42.dev/dn42/registry.git registry
+            git -C registry sparse-checkout set data/aut-num
+            echo "REGISTRY_ARGS=--registry-dir registry" >> "$GITHUB_ENV"
+          else
+            echo "::warning::DN42_REGISTRY_TOKEN not set, using the committed ASN list"
+            echo "REGISTRY_ARGS=--asn-list base/registry/asns.txt" >> "$GITHUB_ENV"
+          fi
+
+      # The committed ASN list from main (never from the PR).
+      - name: Check out main for the ASN list
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          path: base
+          sparse-checkout: registry
+          persist-credentials: false
 
       - name: Check out the change as data
-        uses: actions/checkout@v4 # TODO: pin to a commit SHA
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           path: pr
@@ -60,9 +82,9 @@ jobs:
         run: |
           if [ "$EVENT" = pull_request_target ]; then
             git -C pr fetch --quiet --no-tags "https://github.com/${GITHUB_REPOSITORY}.git" "+refs/heads/main:refs/remotes/base/main"
-            peercheck --repo pr --base base/main --author "$AUTHOR" --app-login "$APP_LOGIN" --registry-dir registry
+            peercheck --repo pr --base base/main --author "$AUTHOR" --app-login "$APP_LOGIN" $REGISTRY_ARGS
           else
-            peercheck --repo pr --registry-dir registry
+            peercheck --repo pr $REGISTRY_ARGS
           fi
 
   # Only PRs from the App that change exactly one peer file, with the check

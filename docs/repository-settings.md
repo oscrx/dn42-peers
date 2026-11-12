@@ -34,6 +34,20 @@ The CI gate only decides; GitHub enforces. Set these once the repo exists.
 > Code Owners review on `.github/`, which a workflow change needs anyway,
 > and the App lacking the `workflows` permission.
 
+## Registry access
+
+`git.dn42.dev` doesn't allow anonymous clones. Either:
+
+- create a read-only access token for your registry account and store it
+  as the Actions secret **`DN42_REGISTRY_TOKEN`** (the gate then checks
+  against the live registry), or
+- keep `registry/asns.txt` in `main` current. It is one ASN per line, made
+  from an authenticated clone with `ls data/aut-num > registry/asns.txt`.
+  It is the fallback when the secret is missing.
+
+The list is read from `main`, never from the PR, so a PR can't add its own
+ASN to it.
+
 ## The autopeer GitHub App
 
 - Installed on this repository only.
@@ -54,4 +68,7 @@ somehow passed the gate can then still never create anything else.
 
 - Tag a dn42-operator release and set `PEERCHECK_VERSION` to it. Until then,
   `go install ...@v0.1.0` in the workflow fails; use `hack/check.sh` locally.
-- Pin `actions/setup-go` and `actions/checkout` to commit SHAs (Renovate).
+- Actions are pinned to commit SHAs (checkout v7.0.1, setup-go v7.0.0);
+  let Renovate bump them.
+- Fill `registry/asns.txt` (or set the token secret). Today it holds only
+  the nine seed ASNs and is unverified against the real registry.
