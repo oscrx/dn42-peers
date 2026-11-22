@@ -1,0 +1,16 @@
+# Migrated from talos4 (dn42-wg-zz.yaml, BIRD protocol zz_fra1).
+# Endpoint host: fra1.dn1144.zz.ac
+# Our public key on this tunnel: 8/AQVYJL/0rAyYMWwdiHn/4Yr07cphcI8sbaLK5QID8=
+apiVersion: dn42.oscarr.nl/v1alpha1
+kind: DN42Peer
+metadata:
+  name: zz
+spec:
+  asn: 4242421144
+  listenPort: 21144
+  endpoint: "[2603:c020:8028:6b00:0:4bd:4f05:30a]:23818"
+  publicKey: poT9Ejekw1ZPQ0PyLcqHdsqE6zJD10Af59ww/u+3Pys=
+  localLinkLocal: fe80::2
+  neighbor: fe80::1
+  link: {latency: 3, bandwidth: 25, crypto: 34}
+  keyRef: zz

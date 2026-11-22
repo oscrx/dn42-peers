@@ -1,12 +1,20 @@
 # aut-num objects known to exist; fallback for the CI gate when DN42_REGISTRY_TOKEN is unset.
 # Regenerate from an authenticated registry clone: ls data/aut-num > registry/asns.txt
 # NOTE: today only the seed peers' ASNs, not yet checked against the real registry.
+AS4242420091
+AS4242420129
 AS4242420207
 AS4242420253
 AS4242420454
 AS4242420842
 AS4242421117
+AS4242421144
+AS4242421573
 AS4242421588
+AS4242421732
+AS4242422016
 AS4242422189
+AS4242422558
+AS4242423035
 AS4242423432
 AS4242423914

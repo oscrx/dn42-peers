@@ -1,0 +1,16 @@
+# Migrated from talos4 (dn42-wg-yukifia.yaml, BIRD protocol yukifia_fr).
+# Endpoint host: ipv6.frrouter.dn42.yukifia.moe
+# Our public key on this tunnel: TqSllrBX1Ia7rny8JjSVPVsut0u0gtBV3w+WCMOrpkA=
+apiVersion: dn42.oscarr.nl/v1alpha1
+kind: DN42Peer
+metadata:
+  name: yukifia
+spec:
+  asn: 4242420091
+  listenPort: 20091
+  endpoint: "[2a11:6c7:1900:2038::91]:53818"
+  publicKey: nK1JBK0/SpWc/2WFuCUKiQPZth//Rkr7hd1t6JHp9AE=
+  neighbor: fe80::91
+  mtu: 1380
+  link: {latency: 4, bandwidth: 25, crypto: 34}
+  keyRef: yukifia

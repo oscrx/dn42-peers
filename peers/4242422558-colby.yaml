@@ -1,0 +1,15 @@
+# Migrated from talos4 (dn42-wg-colby.yaml, BIRD protocol colby_nlams1).
+# Endpoint host: nl-ams1.dn42.derix.au
+# Our public key on this tunnel: jly5edZpiD1OQGWo+q48X6FH+SCH0wzc+4qgHLZL9xg=
+apiVersion: dn42.oscarr.nl/v1alpha1
+kind: DN42Peer
+metadata:
+  name: colby
+spec:
+  asn: 4242422558
+  listenPort: 22558
+  endpoint: "[2a12:9080:1:86::a]:23818"
+  publicKey: aEnSuSUB3ZCrryPAIJxBtH6ZcNgCSeW+dMEceEbiflo=
+  neighbor: fe80::2558:4
+  link: {latency: 2, bandwidth: 25, crypto: 34}
+  keyRef: colby

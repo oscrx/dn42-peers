@@ -1,0 +1,15 @@
+# Migrated from talos4 (dn42-wg-sironeko.yaml, BIRD protocol sironeko_ams1).
+# Endpoint host: v6.ams-1.dn42.sironeko.moe
+# Our public key on this tunnel: d0JlGYbBRYvzwlcRFgnNiaVbi+4ArnofrPQwW3r8SVM=
+apiVersion: dn42.oscarr.nl/v1alpha1
+kind: DN42Peer
+metadata:
+  name: sironeko
+spec:
+  asn: 4242421573
+  listenPort: 21573
+  endpoint: "[2a0b:64c0:18:0:1:1:cc32:3379]:23818"
+  publicKey: ete63S4xKnOREjm/ogWqzgjghbvRTlPOGvRSn2IlnxI=
+  neighbor: fe80::1573
+  link: {latency: 2, bandwidth: 25, crypto: 34}
+  keyRef: sironeko

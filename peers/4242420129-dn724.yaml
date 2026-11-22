@@ -1,0 +1,15 @@
+# Migrated from talos4 (dn42-wg-dn724.yaml, BIRD protocol dn724_nl1).
+# Endpoint host: nl1.420129.xyz
+# Our public key on this tunnel: 7kzGe5z5zkP/jdL5k3I52HkwEBmidCDHfj16b9jkWFg=
+apiVersion: dn42.oscarr.nl/v1alpha1
+kind: DN42Peer
+metadata:
+  name: dn724
+spec:
+  asn: 4242420129
+  listenPort: 20129
+  endpoint: "[2603:c022:c004:2604:0:cfee:b348:5492]:23818"
+  publicKey: m724+s6dks1bHZbEj9JvQb17mAC45z1WkaHSTSgxcRk=
+  neighbor: fe80::129:1
+  link: {latency: 2, bandwidth: 25, crypto: 34}
+  keyRef: dn724
