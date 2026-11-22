@@ -41,4 +41,4 @@ jobs:
 
       # Renovate stops raising PRs entirely when its config is invalid.
       - name: Validate
-        run: npx --yes --package renovate renovate-config-validator --strict renovate.json
+        run: npx --yes --package renovate@44.257.9 renovate-config-validator --strict renovate.json

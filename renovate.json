@@ -13,6 +13,14 @@
   "platformAutomerge": true,
   "customManagers": [
     {
+      "description": "The Renovate validator CI runs.",
+      "customType": "regex",
+      "managerFilePatterns": ["/^\\.github/workflows/ci\\.yaml$/"],
+      "matchStrings": ["--package renovate@(?<currentValue>[0-9.]+)"],
+      "depNameTemplate": "renovate",
+      "datasourceTemplate": "npm"
+    },
+    {
       "description": "The peercheck release pinned in check.yaml.",
       "customType": "regex",
       "managerFilePatterns": ["/^\\.github/workflows/check\\.yaml$/"],
