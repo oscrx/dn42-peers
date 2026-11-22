@@ -1,14 +1,37 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    "helpers:pinGitHubActionDigests"
+  ],
+  "description": [
+    "Actions are pinned to commit SHAs. A tag is mutable, and check.yaml runs with the repo's token on every PR, so a retagged action must not land here without a commit. Renovate keeps the SHAs current.",
+    "platformAutomerge hands the merge to GitHub once the required checks are green; the main ruleset marks them required.",
+    "peercheck is the gate itself, so a new version (which can change what passes) is reviewed by hand, never automerged."
+  ],
+  "platformAutomerge": true,
   "customManagers": [
     {
+      "description": "The peercheck release pinned in check.yaml.",
       "customType": "regex",
-      "description": "peercheck version pinned in the check workflow",
-      "managerFilePatterns": ["/^\\.github/workflows/check\\.yml$/"],
+      "managerFilePatterns": ["/^\\.github/workflows/check\\.yaml$/"],
       "matchStrings": ["PEERCHECK_VERSION: (?<currentValue>v[0-9.]+)"],
       "depNameTemplate": "oscrx/dn42-operator",
       "datasourceTemplate": "github-tags"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Action digests and minor bumps are safe to take unattended once CI is green.",
+      "matchManagers": ["github-actions"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "automerge": true
+    },
+    {
+      "description": "See the peercheck note above.",
+      "matchPackageNames": ["oscrx/dn42-operator"],
+      "automerge": false
     }
   ]
 }

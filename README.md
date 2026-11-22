@@ -34,7 +34,7 @@ stored elsewhere.
 
 ## The check
 
-`.github/workflows/check.yml` runs `peercheck` from dn42-operator, pinned to a
+`.github/workflows/check.yaml` runs `peercheck` from dn42-operator, pinned to a
 release, on every PR and every push to `main`.
 
 - **Every file**: exactly one YAML document, a strict schema (unknown fields,

@@ -1,0 +1,44 @@
+name: CI
+
+# Checks of the repository itself (not the peer files; that is check.yaml).
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  workflows:
+    name: Audit workflows
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # Findings go to the Security tab as SARIF.
+      security-events: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      # The gate's workflow is the security boundary of this repo; audit it
+      # (and this one) on every change.
+      - uses: zizmorcore/zizmor-action@45d7276c9ca790aabd705e31ca99c6185c3e76dd # v0.8.1
+
+  renovate-config:
+    name: Validate Renovate config
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      # Renovate stops raising PRs entirely when its config is invalid.
+      - name: Validate
+        run: npx --yes --package renovate renovate-config-validator --strict renovate.json

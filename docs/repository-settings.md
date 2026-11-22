@@ -22,8 +22,9 @@ The CI gate only decides; GitHub enforces. Set these once the repo exists.
     README, CODEOWNERS itself) needs a review from `@oscrx`, while a
     peers-only PR doesn't.
   - dismiss stale approvals on new commits: on
-- **Require status checks to pass**: the `check` job of the `check`
-  workflow, and require branches to be up to date.
+- **Require status checks to pass**, and require branches to be up to date:
+  - `check` (the gate, `check.yaml`)
+  - `Audit workflows` and `Validate Renovate config` (`ci.yaml`)
 - Bypass list: only the repository admin (Oscar), for emergencies.
 
 > **Verify after setup.** Checks from a `pull_request_target` run must count
@@ -55,7 +56,7 @@ ASN to it.
   **Metadata: read**. **Not** Workflows, so GitHub itself refuses any push by
   the App that changes `.github/workflows/`. Not Administration.
 - Its bot login (`<app-slug>[bot]`) goes in `APP_LOGIN` in
-  `.github/workflows/check.yml`. The gate only offers auto-merge to PRs from
+  `.github/workflows/check.yaml`. The gate only offers auto-merge to PRs from
   exactly that login.
 
 ## ArgoCD

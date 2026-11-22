@@ -4,7 +4,13 @@
 name: check
 
 on:
-  pull_request_target:
+  # zizmor flags pull_request_target as dangerous: it runs with the base
+  # repo's token and secrets. That is the point here (a PR must not be able to
+  # change the gate that judges it), and it is safe because nothing from the
+  # PR is executed: its files are only parsed as YAML by a pinned peercheck,
+  # the checkout keeps no credentials, and no step interpolates PR fields
+  # into a shell.
+  pull_request_target: # zizmor: ignore[dangerous-triggers]
     types: [opened, synchronize, reopened]
     branches: [main]
   push:
@@ -12,8 +18,9 @@ on:
 
 permissions: {}
 
+# Cancel superseded runs; the latest push is the one that matters.
 concurrency:
-  group: check-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 env:
