@@ -50,17 +50,30 @@ jobs:
       # access token of Oscar's registry account. Without it, the gate falls
       # back to registry/asns.txt in main (refreshed by hand) -- never to
       # skipping the check.
-      - name: Fetch the DN42 registry (aut-num objects only)
+      # peercheck only asks whether data/aut-num/AS<n> exists, so a file
+      # listing is enough: a tree-only clone fetches the commit, and ls-tree
+      # then lazily fetches just the three trees on the path (no blobs, no
+      # other directories), a few hundred KB instead of the aut-num objects.
+      - name: List the DN42 registry's aut-num objects
         env:
           DN42_REGISTRY_TOKEN: ${{ secrets.DN42_REGISTRY_TOKEN }}
         run: |
           if [ -n "$DN42_REGISTRY_TOKEN" ]; then
-            git -c "http.extraHeader=Authorization: token ${DN42_REGISTRY_TOKEN}" clone --quiet --depth 1 \
-              --filter=blob:none --sparse https://git.dn42.dev/dn42/registry.git registry
-            # Partial clone: the aut-num blobs are fetched here, so this
-            # needs the header too (it isn't stored in the clone's config).
-            git -c "http.extraHeader=Authorization: token ${DN42_REGISTRY_TOKEN}" -C registry sparse-checkout set data/aut-num
-            echo "REGISTRY_ARGS=--registry-dir registry" >> "$GITHUB_ENV"
+            auth="http.extraHeader=Authorization: token ${DN42_REGISTRY_TOKEN}"
+            git -c "$auth" clone --quiet --depth 1 --filter=tree:0 --no-checkout \
+              https://git.dn42.dev/dn42/registry.git registry
+            # The lazy tree fetch needs the header too (it isn't stored in
+            # the clone's config).
+            git -c "$auth" -C registry ls-tree --name-only HEAD:data/aut-num/ > asns.txt
+            # An empty or tiny list means the fetch went wrong, not that
+            # every ASN is gone: fail rather than reject every peer.
+            n=$(grep -c '^AS' asns.txt || true)
+            if [ "$n" -lt 1000 ]; then
+              echo "::error::only $n aut-num objects listed"
+              exit 1
+            fi
+            echo "$n aut-num objects"
+            echo "REGISTRY_ARGS=--asn-list asns.txt" >> "$GITHUB_ENV"
           else
             echo "::warning::DN42_REGISTRY_TOKEN not set, using the committed ASN list"
             echo "REGISTRY_ARGS=--asn-list base/registry/asns.txt" >> "$GITHUB_ENV"
