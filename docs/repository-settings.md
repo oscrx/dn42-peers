@@ -26,7 +26,12 @@ The CI gate only decides; GitHub enforces. Set these once the repo exists.
     `workflows` permission, and only Renovate's automerge rules, the gate's
     own auto-merge job (App PRs, peers files only) or the admin merge.
   - dismiss stale approvals on new commits: on
-- **Require status checks to pass**, and require branches to be up to date:
+- **Require status checks to pass**, but **not** "require branches to be up
+  to date": with it, a second autopeer PR stalls as "behind" once the first
+  merges, and an update by the workflow's token wouldn't rerun the check.
+  autopeer already treats the name, port and link-local of every open PR as
+  taken, so its PRs can't clash; the daily tree check on main covers the
+  rest.
   - `check` (the gate, `check.yaml`)
   - `Audit workflows` and `Validate Renovate config` (`ci.yaml`)
 - Bypass list: only the repository admin (Oscar), for emergencies.
