@@ -1,6 +1,6 @@
 # Migrated from talos4 (dn42-wg-moe233.yaml, BIRD protocol moe233_ams).
 # Endpoint host: ams.dn42.moe233.net
-# Our public key on this tunnel: exsQFomJtKYOabbYvEL7+WRsZSZnvFYMcxaEBcBdPWM=
+# Our public key on this tunnel: oscrxfobHgtewi+xMJQPNNSEpbBi4XilU7upqJ6Xi2w= (shared autopeer key)
 apiVersion: dn42.oscarr.nl/v1alpha1
 kind: DN42Peer
 metadata:
@@ -12,4 +12,3 @@ spec:
   publicKey: vRRfNnGL7jpKGBJjLZg612vHQulDOtICkgXCC++1+2g=
   neighbor: fe80::253
   link: {latency: 2, bandwidth: 25, crypto: 34}
-  keyRef: moe233
