@@ -1,6 +1,6 @@
 # Migrated from talos4 (dn42-wg-iedon.yaml, BIRD protocol iedon_nlams).
 # Endpoint host: nl-ams.dn42.iedon.net
-# Our public key on this tunnel: Z+E2LCtW2d1RF/RY7H3jUTK3lTP3KGx8JGWpNbRYMBk=
+# Our public key on this tunnel: oscrxfobHgtewi+xMJQPNNSEpbBi4XilU7upqJ6Xi2w= (shared autopeer key)
 apiVersion: dn42.oscarr.nl/v1alpha1
 kind: DN42Peer
 metadata:
@@ -12,4 +12,3 @@ spec:
   publicKey: 08dzv758I5APqJizgw/W6O+FceyHSCbx/L/GZ3TL5TQ=
   neighbor: fe80::2189:177
   link: {latency: 2, bandwidth: 24, crypto: 34}
-  keyRef: iedon
