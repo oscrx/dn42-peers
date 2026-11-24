@@ -25,10 +25,11 @@ concurrency:
 
 env:
   # dn42-operator release providing cmd/peercheck. Pinned; bump with Renovate.
-  # NOTE: resolves only once github.com/oscrx/dn42-operator is public and tagged.
-  PEERCHECK_VERSION: v0.1.0
+  PEERCHECK_VERSION: v0.3.7
   # Login of the autopeer GitHub App's bot user.
   APP_LOGIN: dn42-autopeer[bot]
+  # Our own ASN: a peer file with it would be iBGP, not a peering.
+  LOCAL_ASN: "4242423818"
 
 jobs:
   check:
@@ -107,9 +108,9 @@ jobs:
         run: |
           if [ "$EVENT" = pull_request_target ]; then
             git -C pr fetch --quiet --no-tags "https://github.com/${GITHUB_REPOSITORY}.git" "+refs/heads/main:refs/remotes/base/main"
-            peercheck --repo pr --base base/main --author "$AUTHOR" --app-login "$APP_LOGIN" $REGISTRY_ARGS
+            peercheck --repo pr --base base/main --author "$AUTHOR" --app-login "$APP_LOGIN" --local-asn "$LOCAL_ASN" $REGISTRY_ARGS
           else
-            peercheck --repo pr $REGISTRY_ARGS
+            peercheck --repo pr --local-asn "$LOCAL_ASN" $REGISTRY_ARGS
           fi
 
   # Only PRs from the App that change exactly one peer file, with the check
