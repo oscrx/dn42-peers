@@ -1,6 +1,6 @@
 # Migrated from talos4 (dn42-wg-nedifinita.yaml, BIRD protocol nedifinita_lelystad).
 # Endpoint host: dn42v.nedifinita.com
-# Our public key on this tunnel: ForuR/5064JlniVCuU3crUo12OoV+eMiq4q9/oY5yzs=
+# Our public key on this tunnel: oscrxfobHgtewi+xMJQPNNSEpbBi4XilU7upqJ6Xi2w= (shared autopeer key)
 apiVersion: dn42.oscarr.nl/v1alpha1
 kind: DN42Peer
 metadata:
@@ -12,4 +12,3 @@ spec:
   publicKey: ocxC+26M4aZtQqUVyaPHetGMjRj4VnIUgo3DCu9e1W0=
   neighbor: fe80::454
   link: {latency: 2, bandwidth: 25, crypto: 34}
-  keyRef: nedifinita
