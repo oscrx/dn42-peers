@@ -1,6 +1,6 @@
 # Migrated from talos4 (dn42-wg-baragoon.yaml, BIRD protocol baragoon_ams1).
 # Endpoint host: chr-am02.as215887.net
-# Our public key on this tunnel: zEwMo7KVp0f45gx+L59teSH+8erk43kP2lSMWmjh7QI=
+# Our public key on this tunnel: oscrxfobHgtewi+xMJQPNNSEpbBi4XilU7upqJ6Xi2w= (shared autopeer key)
 apiVersion: dn42.oscarr.nl/v1alpha1
 kind: DN42Peer
 metadata:
@@ -12,4 +12,3 @@ spec:
   publicKey: HL0p+0CWR35x2BVW4cdlp8F/FT+ZKyrvqDcL2LnzV3c=
   neighbor: fe80::1732
   link: {latency: 1, bandwidth: 25, crypto: 34}
-  keyRef: baragoon
