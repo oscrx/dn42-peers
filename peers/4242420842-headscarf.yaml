@@ -1,6 +1,6 @@
 # Migrated from talos4 (dn42-wg-headscarf.yaml, BIRD protocol headscarf_nlams).
 # Endpoint host: nl-ams01.headscarf175.net
-# Our public key on this tunnel: gUB0lKzcDujt1qTb3bmPw8XoDLXiUhiDrarnpR2Xsnc=
+# Our public key on this tunnel: oscrxfobHgtewi+xMJQPNNSEpbBi4XilU7upqJ6Xi2w= (shared autopeer key)
 apiVersion: dn42.oscarr.nl/v1alpha1
 kind: DN42Peer
 metadata:
@@ -12,4 +12,3 @@ spec:
   publicKey: cvouIloP++SXymKP1A/NrDPXnQvvOR1Qst+PWNPpplU=
   neighbor: fe80::842
   link: {latency: 2, bandwidth: 25, crypto: 34}
-  keyRef: headscarf
