@@ -15,6 +15,10 @@ on:
     branches: [main]
   push:
     branches: [main]
+  # Merges made by the auto-merge job (GITHUB_TOKEN) don't trigger the push
+  # run above, so check the whole tree on main once a day as well.
+  schedule:
+    - cron: "17 4 * * *"
 
 permissions: {}
 

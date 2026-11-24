@@ -7,10 +7,11 @@ The CI gate only decides; GitHub enforces. Set these once the repo exists.
 - **Allow auto-merge**: on. Squash merging only; delete branches on merge.
 - **Actions → General → Workflow permissions**: read-only by default. The
   workflow raises its own permissions per job.
-- **Actions → Fork pull request workflows**: leave "Require approval for
-  first-time contributors" on. The gate runs on `pull_request_target` and
-  never executes PR content, but there's no reason to run it for drive-by
-  forks without a look.
+- **Actions → Fork pull request workflows**: "Require approval for
+  first-time contributors" only holds back `pull_request` runs (the other
+  CI jobs). It does not apply to the gate: `pull_request_target` runs at
+  once for every PR. That's fine because the gate never executes PR
+  content, but don't count on the approval setting to protect it.
 
 ## Ruleset for `main`
 
