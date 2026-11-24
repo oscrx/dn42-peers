@@ -14,13 +14,16 @@ The CI gate only decides; GitHub enforces. Set these once the repo exists.
 
 ## Ruleset for `main`
 
-- Restrict deletions; block force pushes.
-- **Require a pull request before merging**:
+- Restrict deletions; block force pushes; require signed commits.
+- **Require a pull request before merging**, squash only:
   - required approvals: **0**
-  - **require review from Code Owners**: on. `.github/CODEOWNERS` owns
-    everything except `peers/`, so a PR touching anything else (workflow,
-    README, CODEOWNERS itself) needs a review from `@oscrx`, while a
-    peers-only PR doesn't.
+  - **no** Code Owners review requirement, so Renovate's action and
+    validator bumps (under `.github/` and `package.json`) automerge once
+    green. `.github/CODEOWNERS` still asks `@oscrx` for a review on
+    anything outside `peers/`; it just doesn't block. What protects the
+    gate: it runs from `main` (`pull_request_target`), the App lacks the
+    `workflows` permission, and only Renovate's automerge rules, the gate's
+    own auto-merge job (App PRs, peers files only) or the admin merge.
   - dismiss stale approvals on new commits: on
 - **Require status checks to pass**, and require branches to be up to date:
   - `check` (the gate, `check.yaml`)
@@ -65,11 +68,9 @@ The Application syncing this repo gets its own AppProject that allows only
 the `DN42Peer` kind and only the `dn42` namespace. A merged file that
 somehow passed the gate can then still never create anything else.
 
-## Still to do when going public
+## Still to do
 
-- Tag a dn42-operator release and set `PEERCHECK_VERSION` to it. Until then,
-  `go install ...@v0.1.0` in the workflow fails; use `hack/check.sh` locally.
-- Actions are pinned to commit SHAs (checkout v7.0.1, setup-go v7.0.0);
-  let Renovate bump them.
 - Fill `registry/asns.txt` (or set the token secret). Today it holds only
   the nine seed ASNs and is unverified against the real registry.
+- Confirm on a real PR that the `pull_request_target` `check` blocks a
+  merge while it fails (see the note above).
