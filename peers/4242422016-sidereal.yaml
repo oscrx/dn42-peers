@@ -1,6 +1,6 @@
 # Migrated from talos4 (dn42-wg-sidereal.yaml, BIRD protocol sidereal_lon1).
 # Endpoint host: lon1.dn42.sidereal.ca
-# Our public key on this tunnel: fBEZotOXdpejp+5LZ6ir0mfbCnz/wYBT7Aoni8mpLHY=
+# Our public key on this tunnel: oscrxfobHgtewi+xMJQPNNSEpbBi4XilU7upqJ6Xi2w= (shared autopeer key)
 apiVersion: dn42.oscarr.nl/v1alpha1
 kind: DN42Peer
 metadata:
@@ -12,4 +12,3 @@ spec:
   publicKey: IsuXPz73qeUi+HfGlkkJnPxSqQKd5drx2dkjuHuuL1k=
   neighbor: fe80::2016
   link: {latency: 3, bandwidth: 25, crypto: 34}
-  keyRef: sidereal
