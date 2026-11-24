@@ -1,6 +1,6 @@
 # Migrated from talos4 (dn42-wg-tech9.yaml, BIRD protocol tech9_defra02).
 # Endpoint host: de-fra02.dn42.tech9.io
-# Our public key on this tunnel: AOw0KpTmLxpBaeQI5y7qJsXi/E0Et15M1RPmnQJ/2C0=
+# Our public key on this tunnel: oscrxfobHgtewi+xMJQPNNSEpbBi4XilU7upqJ6Xi2w= (shared autopeer key)
 apiVersion: dn42.oscarr.nl/v1alpha1
 kind: DN42Peer
 metadata:
@@ -8,9 +8,8 @@ metadata:
 spec:
   asn: 4242421588
   listenPort: 21588
-  endpoint: "[2001:19f0:6c01:726:5400:2ff:fe98:7463]:57377"
+  endpoint: "[2001:19f0:6c01:726:5400:2ff:fe98:7463]:53167"
   publicKey: MD1EdVe9a0yycUdXCH3A61s3HhlDn17m5d07e4H33S0=
   localLinkLocal: fe80::100
   neighbor: fe80::1588
   link: {latency: 3, bandwidth: 25, crypto: 34}
-  keyRef: tech9
