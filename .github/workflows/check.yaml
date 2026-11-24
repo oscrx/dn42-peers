@@ -57,7 +57,9 @@ jobs:
           if [ -n "$DN42_REGISTRY_TOKEN" ]; then
             git -c "http.extraHeader=Authorization: token ${DN42_REGISTRY_TOKEN}" clone --quiet --depth 1 \
               --filter=blob:none --sparse https://git.dn42.dev/dn42/registry.git registry
-            git -C registry sparse-checkout set data/aut-num
+            # Partial clone: the aut-num blobs are fetched here, so this
+            # needs the header too (it isn't stored in the clone's config).
+            git -c "http.extraHeader=Authorization: token ${DN42_REGISTRY_TOKEN}" -C registry sparse-checkout set data/aut-num
             echo "REGISTRY_ARGS=--registry-dir registry" >> "$GITHUB_ENV"
           else
             echo "::warning::DN42_REGISTRY_TOKEN not set, using the committed ASN list"
