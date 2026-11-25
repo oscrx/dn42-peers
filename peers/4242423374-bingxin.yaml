@@ -1,0 +1,11 @@
+# AS4242423374, submitted through autopeer.
+apiVersion: dn42.oscarr.nl/v1alpha1
+kind: DN42Peer
+metadata:
+  name: bingxin
+spec:
+  asn: 4242423374
+  endpoint: uk01.dn42.baka.pub:23818
+  listenPort: 23374
+  neighbor: fe80::2999:228
+  publicKey: ANz369fsR5R5tLoFDPghR+/ODIh9QbeUpRNMEhkA4Fs=
