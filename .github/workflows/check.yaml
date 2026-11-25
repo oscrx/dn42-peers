@@ -127,9 +127,25 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - name: Enable auto-merge
+      # The required check has passed by now, so the PR is usually mergeable
+      # already, and GitHub refuses to enable auto-merge on a mergeable PR
+      # ("clean status", or "unstable status" while this job's own check is
+      # still running). Then merge it directly: the rulesets still apply, and
+      # --match-head-commit pins the commit the check saw.
+      - name: Auto-merge
         env:
           GH_TOKEN: ${{ github.token }}
           PR: ${{ github.event.pull_request.number }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: gh pr merge "$PR" --repo "$GITHUB_REPOSITORY" --auto --squash --match-head-commit "$HEAD_SHA"
+        run: |
+          if out=$(gh pr merge "$PR" --repo "$GITHUB_REPOSITORY" --auto --squash --match-head-commit "$HEAD_SHA" 2>&1); then
+            echo "$out"
+            exit 0
+          fi
+          echo "$out"
+          case "$out" in
+            *"clean status"*|*"unstable status"*) ;;
+            *) exit 1 ;;
+          esac
+          echo "The PR is mergeable already: merging it directly."
+          gh pr merge "$PR" --repo "$GITHUB_REPOSITORY" --squash --match-head-commit "$HEAD_SHA"
