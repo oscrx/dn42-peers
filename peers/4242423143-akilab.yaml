@@ -1,0 +1,11 @@
+# AS4242423143, submitted through autopeer.
+apiVersion: dn42.oscarr.nl/v1alpha1
+kind: DN42Peer
+metadata:
+  name: akilab
+spec:
+  asn: 4242423143
+  endpoint: akiusla1-dn42.akilab.meme:23818
+  listenPort: 23143
+  neighbor: fe80::3143
+  publicKey: CBbv9qUv/u7j/keioB3yx7NaL5yxlI+0ej+SsXVuJ1o=
