@@ -1,14 +1,15 @@
-# Migrated from talos4 (dn42-wg-lare.yaml, BIRD protocol lare_de01).
-# Endpoint host: de01.dn42.lare.cc
-# Our public key on this tunnel: oscrxfobHgtewi+xMJQPNNSEpbBi4XilU7upqJ6Xi2w= (shared autopeer key)
+# AS4242423035, submitted through autopeer.
 apiVersion: dn42.oscarr.nl/v1alpha1
 kind: DN42Peer
 metadata:
   name: lare
 spec:
   asn: 4242423035
+  endpoint: de01.dn42.lare.cc:23818
+  link:
+    bandwidth: 25
+    crypto: 34
+    latency: 3
   listenPort: 23035
-  endpoint: "[2a04:e8c0:18:7c7::1]:23818"
-  publicKey: OL2LE2feDsFV+fOC4vo4u/1enuxf3m2kydwGRE2rKVs=
   neighbor: fe80::3035:130
-  link: {latency: 3, bandwidth: 25, crypto: 34}
+  publicKey: OL2LE2feDsFV+fOC4vo4u/1enuxf3m2kydwGRE2rKVs=
