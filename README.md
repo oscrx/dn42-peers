@@ -2,9 +2,15 @@
 
 The BGP peers of AS4242423818 (oscrx) in [DN42](https://dn42.dev): one
 `DN42Peer` per file in `peers/`, named `<asn>-<name>.yaml`. ArgoCD syncs this
-repo into the `dn42` namespace, and
+repo into the `dn42-router` namespace, and
 [dn42-operator](https://github.com/oscrx/dn42-operator) turns each file into
 a WireGuard tunnel and a BIRD session.
+
+ArgoCD is public (read-only, no login needed): see the sync state of the
+`dn42-peers` app, and the rest of the router (`dn42-router`), at
+[argocd.lab.oscarr.nl](https://argocd.lab.oscarr.nl). The rest of the
+cluster's config is in
+[bierteam/uber-kubernetes](https://github.com/bierteam/uber-kubernetes).
 
 ```yaml
 apiVersion: dn42.oscarr.nl/v1alpha1
