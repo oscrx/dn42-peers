@@ -109,8 +109,17 @@ jobs:
         env:
           EVENT: ${{ github.event_name }}
           AUTHOR: ${{ github.event.pull_request.user.login }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           if [ "$EVENT" = pull_request_target ]; then
+            # GitHub updates the merge ref asynchronously: make sure it is
+            # built from the head this run is for, since auto-merge merges
+            # exactly that commit (--match-head-commit).
+            merged=$(git -C pr rev-parse HEAD^2)
+            if [ "$merged" != "$HEAD_SHA" ]; then
+              echo "::error::the merge ref is for $merged, not the PR head $HEAD_SHA; re-run once GitHub has updated it"
+              exit 1
+            fi
             git -C pr fetch --quiet --no-tags "https://github.com/${GITHUB_REPOSITORY}.git" "+refs/heads/main:refs/remotes/base/main"
             peercheck --repo pr --base base/main --author "$AUTHOR" --app-login "$APP_LOGIN" --local-asn "$LOCAL_ASN" $REGISTRY_ARGS
           else
