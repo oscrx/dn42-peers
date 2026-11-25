@@ -1,0 +1,11 @@
+# AS4242423729, submitted through autopeer.
+apiVersion: dn42.oscarr.nl/v1alpha1
+kind: DN42Peer
+metadata:
+  name: pixia
+spec:
+  asn: 4242423729
+  endpoint: nue1.pixiainfra.pixia.eu.org:23818
+  listenPort: 23729
+  neighbor: fe80::3729
+  publicKey: 2n/880OXKFlvu1NU7mWUcHiPM9SfYc8prjNIl90Dj2M=
