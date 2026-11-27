@@ -29,7 +29,7 @@ concurrency:
 
 env:
   # dn42-operator release providing cmd/peercheck. Pinned; bump with Renovate.
-  PEERCHECK_VERSION: v0.3.12
+  PEERCHECK_VERSION: v0.3.14
   # Login of the autopeer GitHub App's bot user.
   APP_LOGIN: dn42-autopeer[bot]
   # Our own ASN: a peer file with it would be iBGP, not a peering.
